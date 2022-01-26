@@ -5,6 +5,51 @@ from os.path import isfile, join
 import os
 import sys
 import random
+import string
+
+# ------ Some functions to help generate data for the table ------
+
+def edit_cell(window, key, row, col, justify='left'):
+
+    global textvariable, edit
+
+    def callback(event, row, col, text, key):
+        global edit
+        widget = event.widget
+        if key == 'Return':
+            text = widget.get()
+            print(text)
+        widget.destroy()
+        widget.master.destroy()
+        values = list(table.item(row, 'values'))
+        values[col] = text
+        table.item(row, values=values)
+        edit = False
+
+    if edit or row <= 0:
+        return
+
+    edit = True
+    root = window.TKroot
+    table = window[key].Widget
+    text = table.item(row, "values")[col]
+    x, y, width, height = table.bbox(row, col)
+
+    frame = sg.tk.Frame(root)
+    frame.place(x=x, y=y, anchor="nw", width=width, height=height)
+    textvariable = sg.tk.StringVar()
+    textvariable.set(text)
+    entry = sg.tk.Entry(frame, textvariable=textvariable, justify=justify)
+    entry.pack()
+    entry.select_range(0, sg.tk.END)
+    entry.icursor(sg.tk.END)
+    entry.focus_force()
+    entry.bind("<Return>", lambda e, r=row, c=col, t=text,
+               k='Return': callback(e, r, c, t, k))
+    entry.bind("<Escape>", lambda e, r=row, c=col, t=text,
+               k='Escape': callback(e, r, c, t, k))
+
+
 
 vocabulary: list[str] = [f for f in listdir("vocabulary") if isfile(join("vocabulary", f))]
 
@@ -36,15 +81,24 @@ layout_menu:list = [
     [sg.Button(lang["menu"]["vocabulary"])]
 ]
 
+edit = False
+# ------ Make the Table Data ------
+# sg.Print('Creating table...')
+data = category[0]["list_word"]
+# headings = [str(data[0][x])+'     ..' for x in range(len(data[0]))]
+headings = category[0]["language"]
+# sg.Print('Done creating table.  Creating GUI...')
+sg.set_options(dpi_awareness=True)
+
 category_name : list = []
 
 convert_title_category:dict = {}
 
 for i in category:
-    if config["lang"] in i["language"]:
+    if equivalence_lang[config["lang"]] in i["language"]:
         convert_title_category[i["title"][config["lang"]]] = category.index(i)
         category_name.append(i["title"][config["lang"]])
-
+print(category_name)
 layout_category: list = [
     [sg.Listbox(category_name, key="cat", select_mode="LISTBOX_SELECT_MODE_SINGLE")],
     [sg.Button(lang["menu"]["continue"]), sg.Button(lang["menu"]["back"])]
@@ -84,11 +138,26 @@ layout:list = [
         sg.Column(layout_quest, key='quest',visible=False),
         sg.Column(layout_responce, key='responce', visible=False),
         sg.Column(layout_total, key='total', visible=False)
-    ]
+    ],
+    [sg.Table(values=data, headings=headings, max_col_width=25,
+              auto_size_columns=True,
+              # display_row_numbers=True,
+              justification='right',
+              num_rows=20,
+              alternating_row_color=sg.theme_button_color()[1],
+              key='-TABLE-',
+              # selected_row_colors='red on yellow',
+              # enable_events=True,
+              # select_mode=sg.TABLE_SELECT_MODE_BROWSE,
+              expand_x=True,
+              expand_y=True,
+              enable_click_events=True,  # Comment out to not enable header and other clicks
+              )],
+    [sg.Text('Cell clicked:'), sg.T(k='-CLICKED-')]
 ]
 
 # Create the window
-window:sg.Window = sg.Window(lang["menu"]["name"], layout, finalize=True, size=(600,300), grab_anywhere=True, element_justification='c')
+window:sg.Window = sg.Window(lang["menu"]["name"], layout, finalize=True, size=(600,300), grab_anywhere=True, element_justification='c',font=('Courier', 12))
 window.bind("<Return>", "+Enter+")
 window.bind("<Escape>", "-Escape-")
 
@@ -124,8 +193,15 @@ while True:
     # End program if user closes window or
     # presses the OK button
 
+    
+
     if event == lang["menu"]["close"] or event == sg.WIN_CLOSED:
         break
+
+    elif isinstance(event, tuple):
+        cell = row, col = event[2]
+        window['-CLICKED-'].update(cell)
+        edit_cell(window, '-TABLE-', row+1, col, justify='right')
 
     elif event in all_lang:
         config["lang"] = event[:2]
@@ -143,23 +219,22 @@ while True:
         window["mode"].update(visible = True)
         option_mode=[]
         for i in getCombinations(selected_categorie["language"]):
-            option_mode.append(equivalence_lang[i[0]]+f" {lang['menu']['to']} "+equivalence_lang[i[1]])
+            option_mode.append(i[0]+f" {lang['menu']['to']} "+i[1])
         option_mode.append(lang["menu"]["random"])
         window["option_mode"].update(values=option_mode)
     
     elif (event.startswith(lang["menu"]["continue"]) or event == "+Enter+") and values["option_mode"] != "":
-        selected_mode = [f[:2] for f in values["option_mode"].split(" "+lang['menu']['to']+" ")]
+        selected_mode = [f for f in values["option_mode"].split(" "+lang['menu']['to']+" ")]
         option_mode = []
         for i in getCombinations(selected_categorie["language"]):
-            option_mode.append(
-                equivalence_lang[i[0]]+f" {lang['menu']['to']} "+equivalence_lang[i[1]])
+            option_mode.append(i[0]+f" {lang['menu']['to']} "+i[1])
         option_mode.append(lang["menu"]["random"])
         window["option_mode"].update(values=option_mode)
         window["mode"].update(visible=False)
         window["quest"].update(visible=True)
         list_word = selected_categorie["list_word"]
         random.shuffle(list_word)
-        if selected_mode == [lang["menu"]["random"][:2]]:
+        if selected_mode == [lang["menu"]["random"]]:
             for i in list_word:
                 random.shuffle(i)
         elif selected_mode != selected_categorie["language"]:
