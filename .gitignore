@@ -115,3 +115,6 @@ dmypy.json
 
 # Visual Code
 .vscode/
+
+# The builded app
+app.zip
