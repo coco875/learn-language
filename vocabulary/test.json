@@ -1,0 +1,11 @@
+{
+    "language":["fr","en"],
+    "title":{
+        "fr":"fichier de test",
+        "en":"file of test"
+    },
+    "list_word":[
+                    ["si", "if"],
+                    ["salut","hello"]
+    ]
+}

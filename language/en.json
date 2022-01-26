@@ -1,0 +1,19 @@
+{
+    "name":"english",
+    "menu":{
+        "name": "Learn language",
+        "option":"Option",
+        "vocabulary": "Vocabulary",
+        "lang":"Language",
+        "close":"Close",
+        "to":"to",
+        "random":"Random",
+        "submit":"Submit",
+        "translate": "Translate",
+        "continue": "Continue",
+        "good_answer": "It's the good answer, well done.",
+        "bad_answer": "The good answer is ",
+        "score": "Your score is ",
+        "back": "back"
+    }
+}

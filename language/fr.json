@@ -1,0 +1,19 @@
+{
+    "name": "fran\u00e7ais",
+    "menu": {
+        "name": "Apprendre une langue",
+        "option": "Option",
+        "vocabulary": "Vocabulaire",
+        "lang": "Langage",
+        "close": "Fermer",
+        "to": "vers",
+        "random": "Al\u00e9atoire",
+        "submit": "Soumettre",
+        "translate": "Traduit",
+        "continue": "Continuer",
+        "good_answer": "C'est la bonne r\u00e9ponce, bravo.",
+        "bad_answer": "La bonne r\u00e9ponce est ",
+        "score": "Votre score est ",
+        "back": "retour"
+    }
+}
