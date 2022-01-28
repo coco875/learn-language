@@ -1,4 +1,3 @@
-from audioop import add
 import json
 import PySimpleGUI as sg
 from os import listdir
@@ -44,7 +43,6 @@ data = category[0]["list_word"]
 # headings = [str(data[0][x])+'     ..' for x in range(len(data[0]))]
 headings = category[0]["language"]
 # sg.Print('Done creating table.  Creating GUI...')
-sg.set_options(dpi_awareness=True)
 
 category_name : list = []
 
@@ -86,6 +84,8 @@ menu_def:list = [
     [f'&{lang["menu"]["option"]}', [f'&{lang["menu"]["lang"]}', all_lang, '---', f'&{lang["menu"]["close"]}']]
 ]
 
+sg.set_options(dpi_awareness=True)
+
 SelectLang = lambda lkey: sg.Input(do_not_clear=True, size=(22,1), key=lkey, pad=(0,2))
 
 layout_make_list = [
@@ -96,16 +96,19 @@ layout_make_list = [
         sg.Text(" "),
         SelectLang("lang2")],
     [sg.Table(values=data, headings=headings, max_col_width=25,
-              auto_size_columns=True,
-              justification='right',
-              num_rows=20,
-              alternating_row_color=sg.theme_button_color()[1],
-              key='-TABLE-',
-              expand_x=True,
-              expand_y=True,
-              enable_click_events=True,  # Comment out to not enable header and other clicks
-              )],
-    [sg.Text('Cell clicked:'), sg.T(k='-CLICKED-')]
+                        auto_size_columns=True,
+                        # display_row_numbers=True,
+                        justification='right',
+                        num_rows=20,
+                        alternating_row_color=sg.theme_button_color()[1],
+                        key='-TABLE-',
+                        # selected_row_colors='red on yellow',
+                        # enable_events=True,
+                        # select_mode=sg.TABLE_SELECT_MODE_BROWSE,
+                        expand_x=True,
+                        expand_y=True,
+                        enable_click_events=True,  # Comment out to not enable header and other clicks
+                        )]
 ]
 
 #define layout
@@ -123,7 +126,7 @@ layout:list = [
 ]
 
 # Create the window
-window:sg.Window = sg.Window(lang["menu"]["name"], layout, finalize=True, size=(600,300), grab_anywhere=True, element_justification='c',font=('Courier', 12))
+window:sg.Window = sg.Window(lang["menu"]["name"], layout, finalize=True, size=(600,300), grab_anywhere=True, element_justification='c', font=('Courier', 12))
 window.bind("<Return>", "+Enter+")
 window.bind("<Escape>", "-Escape-")
 
@@ -151,6 +154,7 @@ def edit_cell(window, key, row, col, justify='right'):
     edit = True
     root = window.TKroot
     table = window[key].Widget
+
     text = table.item(row, "values")[col]
     x, y, width, height = table.bbox(row, col)
 
@@ -169,16 +173,13 @@ def edit_cell(window, key, row, col, justify='right'):
     frame.place(x=x, y=y+add_y, anchor="nw", width=width, height=height)
     textvariable = sg.tk.StringVar()
     textvariable.set(text)
-    entry = sg.tk.Entry(frame, textvariable=textvariable,
-                        justify=justify, font=('Courier', 12), borderwidth=0)
+    entry = sg.tk.Entry(frame, textvariable=textvariable, justify=justify,font=('Courier', 12))
     entry.pack()
     entry.select_range(0, sg.tk.END)
     entry.icursor(sg.tk.END)
     entry.focus_force()
-    entry.bind("<Return>", lambda e, r=row, c=col, t=text,
-               k='Return': callback(e, r, c, t, k))
-    entry.bind("<Escape>", lambda e, r=row, c=col, t=text,
-               k='Escape': callback(e, r, c, t, k))
+    entry.bind("<Return>", lambda e, r=row, c=col, t=text, k='Return':callback(e, r, c, t, k))
+    entry.bind("<Escape>", lambda e, r=row, c=col, t=text, k='Escape':callback(e, r, c, t, k))
 
 def restart_program():
     """Restarts the current program, with file objects and descriptors
@@ -217,8 +218,7 @@ while True:
         break
 
     elif isinstance(event, tuple):
-        cell = row, col = event[2]
-        window['-CLICKED-'].update(cell)
+        row, col = event[2]
         edit_cell(window, '-TABLE-', row+1, col, justify='right')
 
     elif event in all_lang:
