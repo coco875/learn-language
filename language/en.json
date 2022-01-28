@@ -14,6 +14,9 @@
         "good_answer": "It's the good answer, well done.",
         "bad_answer": "The good answer is ",
         "score": "Your score is ",
-        "back": "back"
+        "back": "Back",
+        "new_list": "Make a new list",
+        "name_file": "File name :",
+        "add_line": "Add a new line"
     }
 }

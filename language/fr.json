@@ -14,6 +14,9 @@
         "good_answer": "C'est la bonne r\u00e9ponce, bravo.",
         "bad_answer": "La bonne r\u00e9ponce est ",
         "score": "Votre score est ",
-        "back": "retour"
+        "back": "Retour",
+        "new_list": "Cr\u00e9er une nouvelle liste",
+        "name_file": "Nom du fichier :",
+        "add_line": "Ajouter une nouvelle ligne"
     }
 }
