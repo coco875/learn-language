@@ -1,5 +1,6 @@
 {
     "name":"english",
+    "short_name": "en",
     "menu":{
         "name": "Learn language",
         "option":"Option",
@@ -9,7 +10,7 @@
         "to":"to",
         "random":"Random",
         "submit":"Submit",
-        "translate": "Translate",
+        "translate": "Translate : ",
         "continue": "Continue",
         "good_answer": "It's the good answer, well done.",
         "bad_answer": "The good answer is ",
@@ -17,6 +18,8 @@
         "back": "Back",
         "new_list": "Make a new list",
         "name_file": "File name :",
-        "add_line": "Add a new line"
+        "add_line": "Add a new line",
+        "save": "Save",
+        "category": "Category"
     }
 }

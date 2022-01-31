@@ -1,5 +1,6 @@
 {
     "name": "fran\u00e7ais",
+    "short_name": "fr",
     "menu": {
         "name": "Apprendre une langue",
         "option": "Option",
@@ -9,7 +10,7 @@
         "to": "vers",
         "random": "Al\u00e9atoire",
         "submit": "Soumettre",
-        "translate": "Traduit",
+        "translate": "Traduit : ",
         "continue": "Continuer",
         "good_answer": "C'est la bonne r\u00e9ponce, bravo.",
         "bad_answer": "La bonne r\u00e9ponce est ",
@@ -17,6 +18,8 @@
         "back": "Retour",
         "new_list": "Cr\u00e9er une nouvelle liste",
         "name_file": "Nom du fichier :",
-        "add_line": "Ajouter une nouvelle ligne"
+        "add_line": "Ajouter une nouvelle ligne",
+        "save": "Sauvegarder",
+        "category": "Catégorie"
     }
 }
