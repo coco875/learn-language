@@ -31,6 +31,8 @@ with open("config.json", "r") as file:
 with open(f"language/{config['lang']}.json") as file:
     lang: dict = json.load(file)
 
+sg.set_options(dpi_awareness=True)
+
 layout_menu:list = [
     [sg.Text(lang["menu"]["name"])],
     [sg.Button(lang["menu"]["vocabulary"])]
@@ -83,8 +85,6 @@ layout_total = [
 menu_def:list = [
     [f'&{lang["menu"]["option"]}', [f'&{lang["menu"]["lang"]}', all_lang, '---', f'&{lang["menu"]["close"]}']]
 ]
-
-sg.set_options(dpi_awareness=True)
 
 SelectLang = lambda lkey: sg.Input(do_not_clear=True, size=(22,1), key=lkey, pad=(0,2))
 
@@ -173,7 +173,7 @@ def edit_cell(window, key, row, col, justify='right'):
     frame.place(x=x, y=y+add_y, anchor="nw", width=width, height=height)
     textvariable = sg.tk.StringVar()
     textvariable.set(text)
-    entry = sg.tk.Entry(frame, textvariable=textvariable, justify=justify,font=('Courier', 12))
+    entry = sg.tk.Entry(frame, textvariable=textvariable, justify=justify, font=('Courier', 12), borderwidth=0)
     entry.pack()
     entry.select_range(0, sg.tk.END)
     entry.icursor(sg.tk.END)
