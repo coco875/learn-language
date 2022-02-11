@@ -3,7 +3,6 @@ from types import NoneType
 import PySimpleGUI as sg
 from os import listdir
 from os.path import isfile, join
-import os
 import sys
 import random
 
@@ -89,7 +88,7 @@ menu_def:list = [
 SelectLang = lambda lkey: sg.Input(do_not_clear=True, size=(22,1), key=lkey, pad=(0,2))
 
 layout_make_list = [
-    [sg.Text(lang["menu"]["name_file"]), sg.Input(key="name_file",size=(36,1)), sg.Text(".json")],
+    [sg.Text(lang["menu"]["name_file"]), sg.Input(key="name_file",size=(36,1)), sg.Text(".json"), sg.Button(lang["menu"]["open"])],
     [
         sg.Text(lang["menu"]["lang"]+" :"),
         SelectLang("lang1"),
@@ -113,7 +112,7 @@ layout_make_list = [
                         expand_y=True,
                         enable_click_events=True,  # Comment out to not enable header and other clicks
                         )],
-    [sg.Button(lang["menu"]["save"]), sg.Button(lang["menu"]["add_line"])]
+    [sg.Button(lang["menu"]["save"]), sg.Button(lang["menu"]["add_line"]),sg.Button(lang["menu"]["exit"])]
 ]
 
 #define layout

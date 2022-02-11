@@ -20,6 +20,8 @@
         "name_file": "File name :",
         "add_line": "Add a new line",
         "save": "Save",
-        "category": "Category"
+        "category": "Category",
+        "open": "Open",
+        "exit": "Sortir"
     }
 }

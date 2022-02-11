@@ -118,3 +118,4 @@ dmypy.json
 
 # The builded app
 app.zip
+compile.bat

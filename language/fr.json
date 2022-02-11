@@ -5,7 +5,7 @@
         "name": "Apprendre une langue",
         "option": "Option",
         "vocabulary": "Vocabulaire",
-        "lang": "Langage",
+        "lang": "Language",
         "close": "Fermer",
         "to": "vers",
         "random": "Al\u00e9atoire",
@@ -20,6 +20,8 @@
         "name_file": "Nom du fichier :",
         "add_line": "Ajouter une nouvelle ligne",
         "save": "Sauvegarder",
-        "category": "Cat\u00e9gorie"
+        "category": "Cat\u00e9gorie",
+        "open": "Ouvrir",
+        "exit": "Sortir"
     }
 }
